@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Interativo Moderno</title>
+
+  <!-- Fonte Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+                  url('https://images.unsplash.com/photo-1581090700227-1c4fcf76e9bf?fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .container {
+      background: rgba(20, 20, 20, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 191, 255, 0.7);
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem 2.5rem;
+      animation: fadeInScale 0.6s ease forwards;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+    }
+
+    button {
+      background: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 8px 6px;
+      box-shadow: 0 3px 7px rgba(0, 191, 255, 0.5);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover, button:focus {
+      background-color: #007acc;
+      box-shadow: 0 0 15px #00bfff;
+      outline: none;
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.25s ease;
+    }
+
+    input[type="radio"], input[type="text"] {
+      margin-right: 12px;
+      accent-color: #00bfff;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 6px 8px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      color: #222;
+      cursor: text;
+    }
+
+    input[type="radio"]:focus + label {
+      color: #00bfff;
+      font-weight: 700;
+    }
+
+    #result {
+      margin-top: 1rem;
+      font-weight: 700;
+      text-align: center;
+      font-size: 1.2rem;
+      min-height: 1.4em;
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+    }
+
+    .active {
+      display: block;
+      animation: fadeInSlide 0.6s ease forwards;
+    }
+
+    /* Animações */
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeInSlide {
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsividade */
+    @media(max-width: 480px) {
+      .container {
+        padding: 1.5rem 1.5rem;
+      }
+
+      button {
+        width: 100%;
+        margin: 8px 0;
+        font-size: 1.1rem;
+      }
+    }
+  
+#intro {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  color: #222;
+  border-left: 5px solid #00bfff;
+}
+
+#curiosidades {
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: #e9faff;
+  border-radius: 8px;
+  color: #222;
+}
+#curiosidades ul {
+  padding-left: 1.2rem;
+}
+
+footer {
+  margin-top: 3rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: #f0f0f0;
+  color: #333;
+}
+footer a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+
+#noticias-destaque {
+  background: linear-gradient(135deg, #007acc, #00bfff);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+.banner-noticia h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.banner-noticia p {
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.btn-noticia {
+  background-color: white;
+  color: #007acc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+.btn-noticia:hover {
+  background-color: #e0f7ff;
+}
+#cards-noticias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.card {
+  background-color: #fff;
+  color: #222;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 280px;
+  box-shadow: 0 4px 10px rgba(0, 191, 255, 0.2);
+  transition: transform 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card h3 {
+  margin-bottom: 0.5rem;
+  color: #007acc;
+}
+
+</style>
+</head>
+
+<body>
+
+  <div class="container">
+<!-- SEÇÃO DE INTRODUÇÃO -->
+<section id="intro">
+  <h2>Bem-vindo ao Portal de Quizzes!</h2>
+  <p>Explore quizzes sobre HTML, Python, Java, Jogos e muito mais. Aprenda brincando e teste seus conhecimentos. Clique em um tema para começar!</p>
+</section>
+
+<!-- SEÇÃO DE CURIOSIDADES -->
+<section id="curiosidades">
+  <h2>Curiosidades</h2>
+  <ul>
+    <li>HTML significa HyperText Markup Language e foi criado em 1993.</li>
+    <li>Python foi batizado em homenagem ao grupo de comédia britânico Monty Python.</li>
+    <li>O jogo mais vendido da história é o Minecraft, com mais de 200 milhões de cópias.</li>
+  </ul>
+</section>
+
+
+    <!-- TELA DE INÍCIO -->
+    
+<!-- SEÇÃO DE NOTÍCIAS EM DESTAQUE -->
+<section id="noticias-destaque">
+  <div class="banner-noticia">
+    <h2>🔥 Novidade: Python 3.13 chegou!</h2>
+    <p>Nova versão traz performance 30% maior e nova sintaxe simplificada.</p>
+    <a href="#" class="btn-noticia">CONFIRA</a>
+  </div>
+</section>
+
+<!-- CARDS DE NOTÍCIAS -->
+<section id="cards-noticias">
+  <div class="card">
+    <h3>🚀 JavaScript domina 2025</h3>
+    <p>É a linguagem mais usada no mundo, segundo Stack Overflow.</p>
+  </div>
+  <div class="card">
+    <h3>🧠 IA com Python</h3>
+    <p>Modelos com PyTorch e TensorFlow invadem o navegador com WebGPU.</p>
+  </div>
+</section>
+
+
+<section class="screen active" id="startScreen">
+      <h1>Escolha seu Quiz</h1>
+      <div class="button-group">
+        <button type="button" onclick="startQuiz('html')">Quiz de HTML</button>
+        <button type="button" onclick="startQuiz('python')">Quiz de Python</button>
+        <button type="button" onclick="startQuiz('java')">Quiz de Java</button>
+        <button type="button" onclick="startQuiz('games')">Quiz de Jogos</button>
+        <button type="button" onclick="showCreateQuiz()">Criar seu próprio Quiz</button>
+      </div>
+    </section>
+
+    <!-- TELA DO QUIZ -->
+    <section class="screen" id="quizScreen">
+      <h2 id="quizTitle">Quiz</h2>
+      <form id="quizForm" aria-label="Formulário de quiz"></form>
+      <div class="button-group">
+        <button type="button" onclick="submitQuiz()">Ver Resultado</button>
+      </div>
+      <div id="result" role="alert" aria-live="polite"></div>
+    </section>
+
+    <!-- TELA FINAL -->
+    <section class="screen" id="finalScreen">
+      <h2>🎉 Parabéns!</h2>
+      <p>Você completou o quiz com sucesso!</p>
+      <div class="button-group">
+        <button type="button" onclick="goToStart()">Voltar ao Início</button>
+      </div>
+    </section>
+
+    <!-- TELA CRIAR QUIZ -->
+    <section class="screen" id="createScreen">
+      <h2>Criar seu Quiz Personalizado</h2>
+      <form id="createForm" aria-label="Formulário de criação de quiz">
+        <div id="questionsContainer"></div>
+        <button type="button" onclick="addQuestion()">Adicionar Pergunta</button>
+        <div style="margin-top: 1rem; text-align:center;">
+          <button type="button" onclick="saveCustomQuiz()">Salvar e Jogar</button>
+          <button type="button" onclick="cancelCreate()">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    const quizzes = {
+      html: {
+        title: "Quiz de HTML",
+        questions: [
+          {
+            text: "Qual tag usamos para criar um link?",
+            options: { a: "<a>", b: "<link>", c: "<url>" },
+            answer: "a"
+          },
+          {
+            text: "Qual atributo define o endereço de um link?",
+            options: { a: "src", b: "href", c: "link" },
+            answer: "b"
+          },
+        ],
+      },
+      python: {
+        title: "Quiz de Python",
+        questions: [
+          {
+            text: "Como se define uma função em Python?",
+            options: { a: "function nome()", b: "def nome():", c: "fun nome()" },
+            answer: "b"
+          },
+          {
+            text: "Qual é o tipo da variável: x = [1, 2, 3]?",
+            options: { a: "list", b: "dict", c: "tuple" },
+            answer: "a"
+          },
+        ],
+      },
+      java: {
+        title: "Quiz de Java",
+        questions: [
+          {
+            text: "Qual palavra-chave cria uma nova instância de objeto em Java?",
+            options: { a: "create", b: "init", c: "new" },
+            answer: "c"
+          },
+          {
+            text: "Qual tipo de dado armazena números inteiros?",
+            options: { a: "int", b: "String", c: "boolean" },
+            answer: "a"
+          },
+        ],
+      },
+      games: {
+        title: "Quiz de Jogos",
+        questions: [
+          {
+            text: "Qual empresa criou o jogo 'The Legend of Zelda'?",
+            options: { a: "Sony", b: "Microsoft", c: "Nintendo" },
+            answer: "c"
+          },
+          {
+            text: "Em Minecraft, qual é o nome do chefe final?",
+            options: { a: "Ender Dragon", b: "Wither", c: "Ghast" },
+            answer: "a"
+          },
+        ],
+      },
+    };
+
+    let currentQuiz = null;
+
+    function startQuiz(quizKey) {
+      currentQuiz = quizzes[quizKey];
+
+      document.getElementById("startScreen").classList.remove("active");
+      document.getElementById("finalScreen").classList.remove("active");
+      document.getElementById("createScreen").classList.remove("active");
+      document.getElementById("quizScreen").classList.add("active");
+
+      document.getElementById("quizTitle").innerText = currentQuiz.title;
+
+      const form = document.getElementById("quizForm");
+      form.innerHTML = "";
+      currentQuiz.questions.forEach((q, i) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<p>${i + 1}. ${q.text}</p>` +
+          Object.entries(q.options).map(([key, val]) =>
+            `<label><input type="radio" name="q${i}" value="${key}" required> ${val}</label>`
+          ).join("");
+        form.appendChild(div);
+      });
+
+      document.getElementById("result").innerText = "";
+    }
+
+    function submitQuiz() {
+      const form = document.getElementById("quizForm");
+      const total = currentQuiz.questions.length;
+      let score = 0;
+      let unanswered = false;
+
+      for (let i = 0; i < total; i++) {
+        const radios = form.elements[`q${i}`];
+        let selected = null;
+
+        if (radios.length === undefined) {
+          selected = radios.checked ? radios.value : null;
+        } else {
+          for (const r of radios) {
+            if (r.checked) selected = r.value;
+          }
+        }
+
+        if (!selected) {
+          unanswered = true;
+          break;
+        }
+
+        if (selected === currentQuiz.questions[i].answer) {
+          score++;
+        }
+      }
+
+      if (unanswered) {
+        alert("Por favor, responda todas as perguntas antes de enviar!");
+        return;
+      }
+
+      if (score === total) {
+        document.getElementById("quizScreen").classList.remove("active");
+        document.getElementById("finalScreen").classList.add("active");
+      } else {
+        document.getElementById("result").innerText = `❌ Você acertou ${score} de ${total}. Tente novamente!`;
+        setTimeout(() => {
+          form.reset();
+          document.getElementById("result").innerText = "";
+        }, 2500);
+      }
+    }
+
+    function goToStart() {
+      document.getElementById("finalScreen").classList.remove("active");
+      document.getElementById("quizScreen").classList.remove("active");
+      document.getElementById("createScreen").classList.remove("active");
+      document.getElementById("startScreen").classList.add("active");
+    }
+
+    // Mostrar tela criação quiz
+    function showCreateQuiz() {
+      document.getElementById("startScreen").classList.remove("active");
+      document.getElementById("quizScreen").classList.remove("active");
+      document.getElementById("finalScreen").classList.remove("active");
+      document.getElementById("createScreen").classList.add("active");
+      resetCreateForm();
+    }
+
+    // Resetar formulário criação quiz
+    function resetCreateForm() {
+      const container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+      addQuestion(); // adiciona uma pergunta inicial
+    }
+
+    // Adicionar nova pergunta no formulário de criação
+    function addQuestion() {
+      const container = document.getElementById("questionsContainer");
+      const index = container.children.length;
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.style.border = "1px solid #00bfff";
+      questionDiv.style.padding = "10px";
+      questionDiv.style.marginBottom = "15px";
+      questionDiv.innerHTML = `
+        <label>Pergunta ${index + 1}:</label>
+        <input type="text" placeholder="Digite o texto da pergunta" required class="question-text" />
+
+        <label>Opção A:</label>
+        <input type="text" placeholder="Opção A" required class="option-a" />
+
+        <label>Opção B:</label>
+        <input type="text" placeholder="Opção B" required class="option-b" />
+
+        <label>Opção C:</label>
+        <input type="text" placeholder="Opção C" required class="option-c" />
+
+        <label>Resposta correta:</label>
+        <select class="correct-answer" required>
+          <option value="">Selecione a resposta correta</option>
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </select>
+      `;
+      container.appendChild(questionDiv);
+    }
+
+    // Salvar quiz criado e iniciar o jogo
+    function saveCustomQuiz() {
+      const container = document.getElementById("questionsContainer");
+      const questions = [];
+
+      for (const qDiv of container.children) {
+        const text = qDiv.querySelector(".question-text").value.trim();
+        const a = qDiv.querySelector(".option-a").value.trim();
+        const b = qDiv.querySelector(".option-b").value.trim();
+        const c = qDiv.querySelector(".option-c").value.trim();
+        const answer = qDiv.querySelector(".correct-answer").value;
+
+        if (!text || !a || !b || !c || !answer) {
+          alert("Por favor, preencha todas as perguntas, opções e selecione a resposta correta.");
+          return;
+        }
+
+        questions.push({
+          text: text,
+          options: { a: a, b: b, c: c },
+          answer: answer
+        });
+      }
+
+      if (questions.length === 0) {
+        alert("Adicione pelo menos uma pergunta.");
+        return;
+      }
+
+      currentQuiz = {
+        title: "Quiz Personalizado",
+        questions: questions
+      };
+
+      document.getElementById("createScreen").classList.remove("active");
+      startQuizCustom();
+    }
+
+    function startQuizCustom() {
+      document.getElementById("quizTitle").innerText = currentQuiz.title;
+      document.getElementById("quizScreen").classList.add("active");
+
+      const form = document.getElementById("quizForm");
+      form.innerHTML = "";
+      currentQuiz.questions.forEach((q, i) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<p>${i + 1}. ${q.text}</p>` +
+          Object.entries(q.options).map(([key, val]) =>
+            `<label><input type="radio" name="q${i}" value="${key}" required> ${val}</label>`
+          ).join("");
+        form.appendChild(div);
+      });
+
+      document.getElementById("result").innerText = "";
+    }
+
+    function cancelCreate() {
+      document.getElementById("createScreen").classList.remove("active");
+      document.getElementById("startScreen").classList.add("active");
+    }
+  </script>
+
+
+<footer>
+  <p>desenvolvido por pedro @ 2025 . contato insta _pedrocarvalhot</p>
+</footer>
+
+</body>
+</html>
